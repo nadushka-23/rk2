@@ -1,0 +1,29 @@
+name: CI/CD Pipeline RK2
+
+on:
+  push:
+    tags:
+      - 'v*' # Робот сработает только тогда, когда мы создадим тег версии (например, v1.0.0)
+
+permissions:
+  contents: write
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Run Build and Tests
+      run: |
+        chmod +x build.sh
+        ./build.sh
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v1
+      with:
+        files: build/*.deb
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
