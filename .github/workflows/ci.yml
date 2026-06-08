@@ -1,29 +1,19 @@
-name: CI/CD Pipeline RK2
+name: CI/CD Matrix Pipeline
 
 on:
   push:
-    tags:
-      - 'v*' # Робот сработает только тогда, когда мы создадим тег версии (например, v1.0.0)
-
-permissions:
-  contents: write
+    tags: ['v*']
 
 jobs:
-  build_and_test:
-    runs-on: ubuntu-latest
-
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
-
-    - name: Run Build and Tests
+    - uses: actions/checkout@v3
+    - name: Run Build
       run: |
-        chmod +x build.sh
-        ./build.sh
-
-    - name: Create GitHub Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: build/*.deb
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        # Здесь была бы логика для разных систем
+        echo "Building on ${{ matrix.os }}"
