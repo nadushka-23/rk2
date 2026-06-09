@@ -1,3 +1,6 @@
+# В файле CMakeLists.txt
+set(CPACK_PACKAGE_CONTACT "nadushka-23 <github@nadushka>")
+include(CPack)
 cmake_minimum_required(VERSION 3.10)
 project(ChainOfResponsibility VERSION 1.0.0)
 
