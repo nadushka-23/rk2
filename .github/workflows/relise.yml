@@ -1,23 +1,35 @@
-name: Relise
+name: Release
 
 on:
   push:
     tags:
-      - 'v*.*.*'
-
-permissions:
-  contents: write
+      - 'v*'
 
 jobs:
-  build-and-package:
+  release:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v4
-      - name: Build and Package
-        run: |
-          chmod +x build.sh
-          ./build.sh
-      - name: Create GitHub Release
-        uses: softprops/action-gh-release@v2
-        with:
-          files: build/*.deb
+    - uses: actions/checkout@v4
+    
+    - name: Install dependencies
+      run: sudo apt install -y cmake build-essential
+    
+    - name: Configure CMake
+      run: cmake -H. -B_build
+    
+    - name: Build
+      run: cmake --build _build
+    
+    - name: Create DEB package
+      run: |
+        cd _build
+        cpack -G DEB
+        cd ..
+    
+    - name: Upload Release
+      uses: softprops/action-gh-release@v2
+      with:
+        files: _build/*.deb
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
