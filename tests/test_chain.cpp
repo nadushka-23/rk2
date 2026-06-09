@@ -1,5 +1,5 @@
-#define RUNNING_TESTS
 #include "../src/worker.cpp"
+#include <cassert>
 
 void test_customer_supporter_can_handle_issue() {
     CustomerSupporter supporter(nullptr);
