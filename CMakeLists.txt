@@ -1,6 +1,3 @@
-# В файле CMakeLists.txt
-set(CPACK_PACKAGE_CONTACT "nadushka-23 <github@nadushka>")
-include(CPack)
 cmake_minimum_required(VERSION 3.10)
 project(ChainOfResponsibility VERSION 1.0.0)
 
@@ -18,8 +15,12 @@ add_test(NAME RunTests COMMAND check_tests)
 # Установка
 install(TARGETS worker_app DESTINATION bin)
 
-# CPack
+# Настройки CPack
 set(CPACK_GENERATOR "DEB")
 set(CPACK_PACKAGE_NAME "chain-worker")
 set(CPACK_PACKAGE_VERSION "${PROJECT_VERSION}")
+set(CPACK_PACKAGE_CONTACT "nadushka-23 <github@nadushka>")
+set(CPACK_PACKAGE_DESCRIPTION "RK2 Chain Package")
+
+# ИКЛЮЧАЕМ ТОЛЬКО В КОНЦЕ
 include(CPack)
