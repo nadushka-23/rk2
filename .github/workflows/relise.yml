@@ -13,28 +13,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Install packaging tools
-        run: sudo apt-get update && sudo apt-get install -y cmake build-essential rpm
-
-      - name: Configure CMake
-        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
-
-      - name: Build
-        run: cmake --build build
-
-      - name: Package with CPack
+      - name: Build and Package
         run: |
-          cd build
-          cpack -G DEB
-          cpack -G RPM
-          cpack -G TGZ
-          mv *.deb *.rpm *.tar.gz ../
-
+          chmod +x build.sh
+          ./build.sh
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: |
-            *.deb
-            *.rpm
-            *.tar.gz
+          files: build/*.deb
